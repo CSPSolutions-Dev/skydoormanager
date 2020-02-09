@@ -1,0 +1,2404 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <!-- WARNING: for iOS 7, remove the width=device-width and height=device-height attributes. See https://issues.apache.org/jira/browse/CB-4323 -->
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
+
+    <title>Door Man App</title>
+
+    <script src="scripts/jquery.min.js"></script>
+
+    <link rel="stylesheet" href="css/app.css" type="text/css">
+    <link rel="stylesheet" href="css/kendo.common-office365.min.css">
+    <link rel="stylesheet" href="css/kendo.office365.min.css">
+    <link rel="stylesheet" href="css/kendo.office365.mobile.min.css">
+
+    <script src="scripts/kendo.all.min.js"></script>
+    <script src="scripts/jszip.min.js"></script>
+    <script src="scripts/UTILITY.js"></script>
+    <script src="scripts/jquery.emojiRatings.js"></script>
+
+    <style>
+        html {
+            font-size: 14px;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        body {
+            background-color: white;
+            line-height: 1.1;
+        }
+
+
+        @media only screen and (max-height: 800px) {
+            .bgskybar {
+                min-height: 800px !important;
+            }
+        }
+
+        @media only screen and (max-width: 900px) {
+            .RatingButtons {
+                width: 90px !important;
+                font-size: 1em !important;
+            }
+
+            .RatingButtonsClicked {
+                width: 90px !important;
+                font-size: 1em !important;
+            }
+
+            .starInfoContainer {
+                height: 600px !important;
+                width: 95% !important;
+            }
+
+            .imgStarDetails {
+                height: 160px !important;
+                width: 180px !important;
+            }
+
+            .spaceLine {
+                margin-bottom: 4% !important;
+            }
+
+            .spaceLine2 {
+                margin-bottom: 2% !important;
+            }
+
+            .leftTitle {
+                width: 180px !important;
+            }
+        }
+
+
+
+        .leftTitle {
+            font-weight: bold;
+            width: 100px;
+            margin-right: 2%;
+        }
+
+        .spaceLine {
+            margin-bottom: 1%;
+        }
+
+        .spaceLine2 {
+            margin-bottom: 2%;
+        }
+
+        .userLevelValueClass {
+            background: -webkit-linear-gradient(left,#1456cc,#6acfff);
+            background: linear-gradient(to right,#1456cc,#6acfff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: bolder;
+        }
+
+        .imgStarDetails {
+            height: 100px;
+            width: 100px;
+            margin-right: 2%;
+            border-radius: 10px;
+        }
+
+        .imageGuestCl {
+            border-radius: 50%;
+            width: 45px;
+            display: inline-block;
+            height: 45px;
+            cursor: pointer;
+        }
+
+        .divGuestCl {
+            border-style: solid;
+            border-width: thin;
+            border-color: lightgray;
+            border-radius: 50%;
+            width: 20px;
+            display: inline-block;
+            height: 20px;
+            vertical-align: middle;
+            cursor: pointer;
+        }
+
+        .guestName {
+            cursor: pointer;
+        }
+
+
+        .vl {
+            border-left: 1px solid black;
+        }
+
+        .Contentcss {
+            padding: 10px;
+        }
+
+        .CSPRefreshGrid {
+            float: right;
+            cursor: pointer;
+            padding: 5px 8px;
+        }
+
+        .rcorners {
+            border-radius: 5px !important;
+        }
+
+        .jqEmojiOut {
+            cursor: pointer;
+            opacity: 0.2;
+            text-decoration: none;
+            font-size: 16px;
+        }
+
+        .jqEmojiIn {
+            cursor: pointer;
+            opacity: 1;
+            text-decoration: none;
+            font-size: 16px;
+        }
+
+        .GeneralGrid {
+            max-height: 300px !important;
+            height: 300px !important;
+        }
+        /*Door Activity CSS */
+        .bgskybar {
+            /*background-image: url(css/images/background_admin@2x.jpg);*/
+            height: 100%;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+            min-height: 1024px;
+            background-color: black;
+        }
+
+        .userDetails > img {
+            max-width: 48px;
+            max-height: 48px;
+            border-radius: 50%;
+            float: left;
+            margin-top: 5px;
+        }
+
+        .userDetails {
+            color: white;
+            font-weight: bold;
+            overflow: hidden;
+            margin-bottom: 10px;
+            margin-top: 10px;
+            padding-left: 10px;
+        }
+
+        .userDetailsSettings > img {
+            border-radius: 50%;
+            float: left;
+            margin-top: 5px;
+            max-width: 128px;
+            max-height: 128px;
+            height: 100px;
+            width: 100px;
+        }
+
+        .userDetailsSettings {
+            color: black;
+            font-weight: bold;
+            overflow: hidden;
+            margin-bottom: 40px;
+            margin-top: 10px;
+            margin-left: 30px;
+        }
+
+        .userInfo {
+            margin-top: 10px;
+        }
+
+        .userInfoSettings {
+            margin-left: 120px;
+            margin-top: 36px;
+        }
+
+
+        .nextInLine {
+            color: #9a9a9a;
+            margin-bottom: 5px;
+        }
+
+        .search {
+            float: right;
+            border-radius: 10px;
+            margin-right: 10px;
+        }
+
+        .k-autocomplete .k-input, .k-multiselect-wrap, .k-textbox > input {
+            border-radius: 10px !important;
+        }
+
+        .k-list-container.k-state-border-up {
+            border-radius: 10px !important;
+        }
+
+        .k-autocomplete {
+            border-radius: 10px !important;
+        }
+
+        .userInfo .search {
+            margin-left: 0px;
+        }
+
+        .footer {
+            height: 100px;
+            width: 100%;
+            position: fixed;
+            left: 0;
+            bottom: 0;
+        }
+
+        .footerMainContainer {
+            width: 100%;
+            height: 100px;
+            background-color: white;
+            position: fixed;
+            border-style: solid;
+            display: inline-block;
+            text-align: center;
+        }
+
+        .footerButtons {
+            width: 20%;
+            display: inline-block;
+            margin-left: 5%;
+        }
+
+        .First {
+            margin-left: 0px;
+        }
+
+        .starsOnDoor {
+            width: 100%;
+        }
+
+        .starsOnDoorList {
+            display: inline-flex;
+            list-style: none;
+            padding-left: 0px;
+            -webkit-margin-after: 0px;
+        }
+
+        .starOnDoorImages {
+            max-width: 80px;
+            max-height: 80px;
+            border-radius: 50%;
+            border-color: white;
+            border-style: solid;
+            border-width: 2px;
+            margin-right: 10px;
+            margin-bottom: 3px;
+            width: 80px;
+            height: 80px;
+        }
+
+        .starsOnDoorListItems {
+            margin-right: 10px;
+        }
+
+        .starInfoContainer {
+            background: white;
+            width: 92%;
+            margin-left: 2.5%;
+            border-radius: 10px;
+            padding: 20px;
+            height: 470px;
+            margin-top: 10px;
+        }
+        /*Star In Venue CSS */
+        .starsInVenueHeader {
+            color: black;
+            font-size: 12pt;
+            height: 50px;
+            margin-bottom: 20px;
+        }
+
+        .titleInVenue {
+            font-size: 18px;
+            font-weight: bolder;
+        }
+
+        .DateStyle {
+            font-size: 16px;
+            font-weight: bolder;
+            margin-left: 15%;
+        }
+
+        .userInfo .searchInVenue {
+            float: right;
+            border-radius: 10px;
+        }
+
+        .userInfoHeader {
+            /*margin-top: 20px;*/
+        }
+
+            .userInfoHeader .searchInVenue {
+                float: right;
+                border-radius: 10px;
+            }
+
+        .userSettings {
+            margin-left: 30px;
+            margin-bottom: 40px;
+        }
+
+
+        .photo {
+            width: 80px;
+        }
+
+        .name {
+            display: block;
+        }
+
+        .details {
+            border-bottom-style: solid !important;
+            border-bottom-width: 1px !important;
+        }
+
+        .resDate {
+            color: #105AC5;
+            font-size: large;
+            display: block;
+        }
+
+        .gridName {
+            font-size: large;
+            font-weight: bolder;
+            display: block;
+            color: black;
+        }
+
+        .gridNameGuestGrid {
+            font-size: large;
+            font-weight: bolder;
+            display: block;
+            color: #105AC5;
+        }
+
+        .gridInfo {
+            font-size: small;
+            font-weight: bolder;
+            display: block;
+            color: black;
+        }
+
+        .guestListin {
+            font-size: small;
+            display: block;
+            color: black;
+        }
+
+        .gridInfoDate {
+            font-weight: normal;
+            color: grey;
+            font-size: small;
+        }
+
+        .budgetInfo {
+            font-size: medium;
+            font-weight: bolder;
+            display: block;
+            color: grey;
+        }
+
+        .resImages {
+            max-width: 64px;
+            max-height: 64px;
+            width: 64px;
+            height: 64px;
+            border-radius: 50%;
+        }
+
+        .k-grid-header {
+            display: none;
+            border-style: none;
+        }
+
+        .k-grid tr td {
+            border-width: 0px;
+            border-style: solid;
+            border-color: #c9c9c9;
+        }
+
+        .ratingVal {
+            color: black;
+            float: right;
+            font-size: small;
+            font-weight: normal;
+        }
+
+        .jqEmoji-container {
+            float: right;
+            display: inline;
+            margin-left: 10px;
+        }
+
+        .gridInfoDateinven {
+            color: #105AC5;
+            font-weight: normal;
+            font-size: small;
+        }
+
+        .RatingButtons {
+            background-color: white;
+            color: black;
+            border: 1px solid black;
+            border-radius: 10px;
+            font-size: medium;
+            width: 120px;
+            height: 30px;
+            margin-right: 5px;
+            text-align: center;
+            display: block;
+            padding-top: 4px;
+        }
+
+        .RatingButtonsClicked {
+            background-color: black;
+            color: white !important;
+            border: 1px solid black;
+            border-radius: 10px;
+            font-size: medium;
+            margin-right: 5px;
+            height: 30px;
+            width: 120px;
+            display: block;
+            padding-top: 4px;
+        }
+
+        .ApproveAndRate {
+            background-color: black;
+            color: white !important;
+            border: 1px solid black;
+            border-radius: 10px;
+            font-size: medium;
+            margin-right: 15px;
+            height: 36px;
+            width: 180px;
+            padding-top: 9px;
+        }
+
+        .ReasonDismiss {
+            background-color: white;
+            color: #105AC5 !important;
+            border: 1px solid #105AC5;
+            border-radius: 10px;
+            font-size: x-large;
+            margin-right: 5px;
+            height: 36px;
+            width: 300px;
+            padding-top: 9px;
+        }
+
+        .OtherReasonDismiss {
+            background-color: white;
+            color: black !important;
+            border: 1px solid black;
+            border-radius: 10px;
+            font-size: x-large;
+            margin-right: 5px;
+            height: 36px;
+            width: 300px;
+            padding-top: 9px;
+        }
+
+        .Dismiss {
+            background-color: white;
+            color: red !important;
+            border: 1px solid red;
+            border-radius: 10px;
+            font-size: medium;
+            margin-right: 5px;
+            height: 36px;
+            width: 140px;
+            padding-top: 9px;
+        }
+
+        .AppearanceButtonsList {
+            list-style: none;
+            display: inline-flex;
+            width: 100%;
+            height: 100%;
+            margin-top: 0px;
+        }
+
+        .AppareanceButtonsListItems {
+            width: 23%;
+            height: 100%;
+        }
+
+        .ContainerDetailsFirstOption {
+            display: inline-flex;
+            width: 100%;
+            margin-bottom: 2%;
+        }
+
+        .containerDetailsSecondOption {
+            display: inline-flex;
+            width: 100%;
+        }
+
+        .numericDisp {
+            height: 30px;
+            width: 60px;
+            background-color: #f1f1f1;
+            font-weight: bold;
+            text-align: center;
+            border-style: none;
+            margin-right: 50px;
+            border-radius: 10px;
+            font-size: large;
+        }
+
+        .loggedInName {
+            color: white;
+            font-size: 12pt;
+            font-weight: bold;
+            margin-bottom: 0px;
+        }
+
+        .loggedInRole {
+            color: white;
+            font-size: 10pt;
+            margin-bottom: 0px;
+            font-weight: normal;
+        }
+
+        /*LOGIN STYLE*/
+
+        .lbllogin {
+            color: black;
+            font-family: 'Source Sans Pro', sans-serif;
+            font-size: 1.1em;
+            font-weight: 600;
+        }
+
+        input[type="text"], textarea {
+            background-color: white;
+        }
+
+        .inputlogin {
+            border-style: none;
+            border-bottom-style: solid;
+            background-color: white;
+            padding: 0px !important;
+            padding-bottom: 12px !important;
+            padding-top: 10px !important;
+            height: 1.5rem !important;
+        }
+
+        .splash-container {
+            max-width: 501px;
+        }
+
+        .card-border-color-primary {
+            border-top: none !important;
+        }
+
+        .card-border-color {
+            border-top: none !important;
+        }
+
+        .card {
+            border-radius: 10px !important;
+            margin-top: 50px !important;
+        }
+
+        .splash-container.card {
+            height: 400px !important;
+        }
+
+        .login-submit {
+            text-align: center;
+        }
+
+        .btnsubmit {
+            border-color: white;
+            background-color: white;
+            color: black;
+            border-radius: 10px;
+            width: 40% !important;
+            box-shadow: 0px 0px 30px white;
+            height: 35px !important;
+            padding-bottom: 40px !important;
+            text-align: center !important;
+            vertical-align: middle !important;
+            font-weight: 800 !important;
+        }
+
+        .card-header {
+            padding-top: 40px;
+        }
+
+        input:-webkit-autofill {
+            -webkit-box-shadow: 0 0 0px 1000px white inset !important;
+        }
+
+        .unit {
+            font-size: medium;
+        }
+
+        .title {
+            font-size: 1.2em;
+            font-weight: 500;
+        }
+
+        .widgetStyle {
+            border-radius: 10px;
+        }
+
+        .col1 {
+            width: 49%;
+            margin-right: 1%;
+        }
+
+        .col2 {
+            width: 32%;
+            margin-right: 1.5%;
+        }
+
+        .largetext {
+            font-weight: bold !important;
+        }
+
+        .chartLeg {
+            border: 1px solid #076bc4;
+            background: linear-gradient(to right,#066fc8,#01a2f1);
+            width: 30px;
+            height: 30px;
+            margin: 2px;
+            border-radius: 90%;
+            box-shadow: 0px 0px 5px #076bc4;
+        }
+
+        .chartLeg2 {
+            border: 1px solid lightgray;
+            background-color: white;
+            width: 30px;
+            height: 30px;
+            margin: 2px;
+            border-radius: 90%;
+            box-shadow: 0px 0px 5px lightgray;
+        }
+
+        .value {
+            font-size: 1em !important;
+            font-weight: bold !important;
+        }
+
+        .name {
+            display: block;
+            font-size: 1em;
+            font-weight: bold;
+        }
+
+        .widget-tile {
+            padding-top: 12px !important;
+        }
+
+        .Chartscontainer {
+            border-color: #86c1f5;
+            color: black;
+            border-width: 0.4px;
+            border-radius: 10px;
+            border-style: double;
+            box-shadow: 0px 0px 5px #4994d6;
+        }
+
+        .averageLabel {
+            color: #979797;
+        }
+
+        .totalLabel {
+            color: #105AC5;
+        }
+
+        .widget-tiles {
+            padding: 24px 20px;
+            margin-bottom: 25px;
+            display: table;
+            width: 100%;
+        }
+
+        .GenderInActive {
+            border: 1px solid lightgray;
+            background-color: white;
+            width: 34px !important;
+            height: 34px;
+            margin: 2px;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+
+        .GenderActive {
+            border: 1px solid #076bc4;
+            background: linear-gradient(to right,#1456cc,#73b6f1);
+            width: 34px !important;
+            height: 34px;
+            margin: 2px;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+
+        .ArrivedInActive {
+            border: 1px solid lightgray;
+            background-color: white;
+            width: 34px !important;
+            height: 34px;
+            margin: 2px;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+
+        .ArrivedActive {
+            border: 1px solid #076bc4;
+            background: linear-gradient(to right,#1456cc,#73b6f1);
+            width: 34px !important;
+            height: 34px;
+            margin: 2px;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+
+        .fullcapacity {
+            border-color: red;
+            color: red;
+            background-color: transparent;
+            border-radius: 10px;
+            height: 40px;
+            cursor: pointer;
+            margin-left: 20px;
+            font-weight: bold;
+        }
+
+        .NotfullCapacity {
+            border-color: white;
+            color: white;
+            background-color: transparent;
+            border-radius: 10px;
+            height: 40px;
+            cursor: pointer;
+            margin-left: 20px;
+            font-weight: bold;
+        }
+
+        .checkinBtnCl {
+            color: black;
+            border-color: black;
+            background-color: transparent;
+            border-radius: 10px;
+            margin-right: 50%;
+            font-size: large;
+            width: 120px;
+            height: 40px;
+        }
+
+        .checkinLabl {
+            font-size: 1.5em;
+            color: black;
+        }
+
+        .checkinAccesslbl {
+            margin-right: 10px;
+        }
+
+        input[type="radio"], input[type="checkbox"] {
+            width: 2em;
+            height: 1.5em;
+            border: 0px;
+        }
+
+        .k-edit-field {
+            padding: 0 0 3em;
+        }
+
+        slidecontainer {
+            width: 100%;
+        }
+
+        .slider {
+            -webkit-appearance: none;
+            width: 100%;
+            height: 1px;
+            border-radius: 5px;
+            background: #d3d3d3;
+            outline: none;
+            opacity: 1;
+            -webkit-transition: .2s;
+            transition: opacity .2s;
+        }
+
+            .slider:hover {
+                opacity: 1;
+            }
+
+            .slider::-webkit-slider-thumb {
+                -webkit-appearance: none;
+                appearance: none;
+                width: 25px;
+                height: 25px;
+                border-radius: 50%;
+                background: linear-gradient(to right,#1456cc,#73b6f1);
+                cursor: pointer;
+            }
+
+            .slider::-moz-range-thumb {
+                width: 25px;
+                height: 25px;
+                border-radius: 50%;
+                background: linear-gradient(to right,#1456cc,#73b6f1);
+                cursor: pointer;
+            }
+    </style>
+
+
+</head>
+<body>
+    <input type="hidden" id="hf_SiteUrl" value="https://skybarstar.com/">
+
+
+    <div>
+
+        <script id="Login" type="text/x-kendo-template">
+            <!-- Here goes the html -->
+            <div id="LoginDiv" class="be-splash-screen  bgskybar">
+                <div class="be-wrapper be-login">
+                    <div class="be-content">
+                        <div class="main-content container-fluid">
+                            <div class="splash-container">
+                                <div style="width:100%;text-align:center;margin-bottom: 25px;">
+                                    <img src="css/images/Skybar_login_logo_gold.png">
+                                </div>
+                                <div style="width:100%;text-align:center;">
+                                    <label style="color:#c5c5c5;font-size:x-large;">DOOR MANAGEMENT</label>
+                                </div>
+
+                                <div class="card card-border-color card-border-color-primary">
+                                    <div class="card-header"></div>
+                                    <div class="card-body">
+                                        <input name="__RequestVerificationToken" type="hidden" value="y0Il7_gAxjBCT33Drcnj05P8GSQGiWSL2vyttwZsscsC5q40K8zQ5F5WTGOk-o7HZH8gZsxcxnogbFHtNzs-dR98zr2VOE9fyFaHtev9JBE1">
+                                        <div class="form-group">
+                                            <label class="lbllogin">Enter your Sky Management Email</label>
+                                            <input autocomplete="off" class="form-control inputlogin" data-val="true" data-val-email="The Email field is not a valid e-mail address." data-val-required="The Email field is required." id="userName" name="userName" placeholder="Email" type="text" value="">
+
+                                        </div>
+                                        <div class="form-group" style="margin-top:40px !important">
+                                            <label class="lbllogin">Enter password provided by management</label>
+                                            <input class="form-control inputlogin " data-val="true" data-val-required="The Password field is required." id="password" name="password" placeholder="Password" type="password">
+
+                                            <span class="text-danger" id="ErrorMessage" style="display:none">Invalid Email or password</span>
+                                        </div>
+                                        <div class="form-group row login-tools">
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group login-submit" style="margin-top:10px"><input type="button" onclick="UserLogin()" value="SIGN IN" class="btn btn-xl btnsubmit"></div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </script>
+        <script type="text/javascript">
+
+            function GetTime(itemID){
+                var currentDate = new Date();
+                //kendo.toString(kendo.parseDate(DateRequested, 'yyyy-MM-dd HH:mm:ss'), 'ddd dd MMM, yyyy')
+                var DateFormatted = kendo.toString(currentDate, 'dd-MMM-yyyy hh:mm tt');
+
+                $("#"+ itemID ).text(DateFormatted);
+            }
+
+            function UserLogin(){
+                debugger;
+                $.support.cors = true;
+                $("#ErrorMessage").hide();
+                var n=$("#userName").val(),t=$("#password").val();
+
+                $.ajax({
+                    type:"GET",
+                    dataType: "json",
+                    url: url_Login + "?userName=" + n + "&password=" + t,
+                    success: function (userInfo) {
+                        debugger;
+                        if (userInfo != null && userInfo != false) {
+                            $("#userName").val("");
+                            $("#password").val("");
+                            Logged_UserInfo = userInfo;
+                            MobileSessionID = userInfo.MobileSessionID;
+
+                            gotoView('DoorActivity');
+                            $("#footerCtn").show();
+
+                        }
+                        else {
+                            $("#ErrorMessage").show();
+                        }
+                    },
+                    error: function () {
+
+                        kendo.alert("Error");
+                    }
+                });
+
+            }
+
+            var SiteUrl=$("#hf_SiteUrl").val(),url_Login=SiteUrl+"StaffAppService/IsValidMobileStaffUser";
+
+            LoginNamespace={init:function(){},viewModel:function(){return kendo.observable({isVisible:!0})}};
+
+        </script>
+
+        <script id="DoorActivity" type="text/x-kendo-template">
+            <!-- Here goes the html -->
+            <div id="DoorActivityDiv" class="bgskybar Contentcss">
+                <input hidden="hidden" id="StarAppearance_hid" value="" />
+                <input hidden="hidden" id="GuestAppearance_hid" value="" />
+                <input hidden="hidden" id="UserID_hid" value="" />
+                <input hidden="hidden" id="VisitID_hid" value="" />
+                <div id="UserDetailsDiv" class="userDetails">
+                    <img id="loggedUserImage">
+                    <div id="userInfoDiv" class="userInfo">
+                        <label id="LoggedUserName" class="loggedInName"></label>
+                        <br />
+                        <label class="loggedInRole" id="loggedUserRole"></label>
+                        <div style="display:inline;margin-left: 10%">
+                            <button style="background-color:transparent;color:white;border-color:white;border-radius:10px;font-weight:bold;height:40px" onclick="OpenManualCheckinStarPage()">
+                                CHECK-IN
+                            </button>
+                            <button type="button" class="NotfullCapacity" id="fullCapacityBtn" onclick="SetFullCapacity()" style="display:none">
+                                <img onclick="SetFullCapacity()" id="capacityImg" src="css/images/not_full.png" style="height:22px" />
+                                <span onclick="SetFullCapacity()" id="fullCapacityTextField"> Full Capacity</span>
+                            </button>
+                        </div>
+
+                        <input type="text"
+                               id="searchTextBox"
+                               class="search"
+                               placeholder="Search"
+                               data-role="autocomplete"
+                               data-Text-Field="FullName"
+                               data-value-field="User_ID"
+                               data-bind="source:starsOnDoorFilteredByName,
+                            events: {
+                              select: onSelect
+
+                            }" />
+                    </div>
+                </div>
+                <div class="nextInLine">
+                    Next in line
+                </div>
+                <div style="width:100%">
+                    <div id="starsOnDoorList" data-role="listview" data-bind="source:starsOnDoorList" data-template="StarsListTemplate" style="background-color:transparent !important;border-style:none !important;margin-left: 2.5%;margin-bottom:20px;width: 100%;display:inline-block;height: 170px;overflow-y: scroll;"></div>
+                </div>
+                <div id="starDetailsContainer" class="starInfoContainer" style="display:none;">
+                    <div class="ContainerDetailsFirstOption">
+                        <img id="starDetailsImage" class="imgStarDetails" />
+                        <div style="display:inline-grid;width:90%">
+                            <span>
+                                <span id="UserFirstNameLabel" style="font-size:large;font-weight:bold">
+                                </span>
+                                <span style="float:right">Checked in at</span>
+                            </span>
+                            <span style="margin-bottom:5px">
+                                <span id="UserLastNameLabel" style="font-size:large;font-weight:bold"></span>
+                                <span id="StarDetailsDateVisited" style="font-weight:bold;float:right"></span>
+                            </span>
+                            <span style="margin-bottom:5px;">
+                                <span>
+                                    <span style="background: -webkit-linear-gradient(left,#1456cc,#6acfff);background: linear-gradient(to right,#1456cc,#6acfff);-webkit-background-clip: text; -webkit-text-fill-color: transparent;">SKY</span>
+                                    <span id="UserLevelValue" class="userLevelValueClass"></span>
+                                </span>
+                                <br />
+                                <span>Membership #</span>
+                                <span id="UserMembershipValue"></span>
+                            </span>
+                            <span>
+                                <span>Rating Average</span>
+                                <br />
+                                <span id="UserRatingValue"></span>
+                                <span id="UserRatingStars" style="display: inline;margin-left: 10px;">
+                                    <span class="jqEmojiOut" id="ratingStar_0" data-index="0">⭐</span>
+                                    <span class="jqEmojiOut" id="ratingStar_1" data-index="1">⭐</span>
+                                    <span class="jqEmojiOut" id="ratingStar_2" data-index="2">⭐</span>
+                                    <span class="jqEmojiOut" id="ratingStar_3" data-index="3">⭐</span>
+                                    <span class="jqEmojiOut" id="ratingStar_4" data-index="4">⭐</span>
+                                </span>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="containerDetailsSecondOption">
+
+
+                        <div style="font-weight:bold;">
+                            Number of guests with stars
+                        </div>
+                    </div>
+                    <div class="containerDetailsSecondOption spaceLine" style="display:block;margin-left: 10px; margin-top:10px">
+
+                        <div class="slidecontainer" style="display: inline-block;width: 80%;">
+                            <input type="range" min="1" max="16" value="1" class="slider" id="NumberOfGuestsNumericSlider" oninput="changeNumberOfGuestsValue(this)">
+                        </div>
+                        <div style="display: inline-block">
+                            <input type="number" id="NumberOfGuestsVisitingNumeric" class="numericDisp" />
+                        </div>
+                    </div>
+                    <div class="containerDetailsSecondOption spaceLine" style="margin-right:50px;">
+                        <div class="leftTitle">
+                            Star Appearance
+                        </div>
+                        <div class="containerDetailsSecondOption">
+                            <ul id="StarAppeanceButtonsContainer" class="AppearanceButtonsList">
+                                <!--<li class="AppareanceButtonsListItems">
+                                    <a class="RatingButtons" onclick="ChangeStarAppearanceValue(this, 1)" id="StarAppearanceBtn_1">Very Bad</a>
+                                </li>-->
+                                <li class="AppareanceButtonsListItems">
+                                    <a class="RatingButtons" onclick="ChangeStarAppearanceValue(this, 2)" id="StarAppearanceBtn_2">Bad</a>
+                                </li>
+                                <li class="AppareanceButtonsListItems">
+                                    <a class="RatingButtons" onclick="ChangeStarAppearanceValue(this, 3)" id="StarAppearanceBtn_3">Good</a>
+                                </li>
+                                <li class="AppareanceButtonsListItems">
+                                    <a class="RatingButtons" onclick="ChangeStarAppearanceValue(this, 4)" id="StarAppearanceBtn_4">Very Good</a>
+                                </li>
+                                <li class="AppareanceButtonsListItems">
+                                    <a class="RatingButtons" onclick="ChangeStarAppearanceValue(this, 5)" id="StarAppearanceBtn_5">Outstanding</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="containerDetailsSecondOption spaceLine">
+                        <div class="leftTitle">
+                            Guests Appearance
+                        </div>
+                        <div class="containerDetailsSecondOption spaceLine">
+                            <ul id="GuestAppeanceButtonsContainer" class="AppearanceButtonsList">
+                                <!--<li class="AppareanceButtonsListItems">
+                                    <a class="RatingButtons" onclick="ChangeGuestAppearanceValue(this, 1)" id="GuestAppearanceBtn_1">Very Bad</a>
+                                </li>-->
+                                <li class="AppareanceButtonsListItems">
+                                    <a class="RatingButtons" onclick="ChangeGuestAppearanceValue(this, 2)" id="GuestAppearanceBtn_2">Bad</a>
+                                </li>
+                                <li class="AppareanceButtonsListItems">
+                                    <a class="RatingButtons" onclick="ChangeGuestAppearanceValue(this, 3)" id="GuestAppearanceBtn_3">Good</a>
+                                </li>
+                                <li class="AppareanceButtonsListItems">
+                                    <a class="RatingButtons" onclick="ChangeGuestAppearanceValue(this, 4)" id="GuestAppearanceBtn_4">Very Good</a>
+                                </li>
+                                <li class="AppareanceButtonsListItems">
+                                    <a class="RatingButtons" onclick="ChangeGuestAppearanceValue(this, 5)" id="GuestAppearanceBtn_5">Outstanding</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="containerDetailsSecondOption spaceLine">
+                        <div style="font-weight:bold;">
+                            Comment To note
+                        </div>
+                    </div>
+                    <div class="containerDetailsSecondOption spaceLine2">
+                        <div style="width:91%">
+                            <textarea id="noteTextArea" rows="2" style="width:100%;border-style:none;border-bottom-style:solid;resize: none;" placeholder="Write Comment here"></textarea>
+                        </div>
+                    </div>
+                    <div class="containerDetailsSecondOption spaceLine2" style="display:block;text-align:center;">
+                        <div style="text-align:center;display:inline-flex;">
+                            <a class="ApproveAndRate" onclick="ApproveAndRateStarVisit()">APPROVE & RATE </a>
+                            <a class="Dismiss" onclick="OpenDismissVisitWindow()">DISMISS</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="DismissWindow"></div>
+            </div>
+        </script>
+        <script type="text/javascript">
+
+            var SiteUrl=$("#hf_SiteUrl").val();
+            var url_GetAvailableUsers=SiteUrl+"StaffAppService/GetAvailableUsers";
+            var url_RateStarVisit=SiteUrl+"StaffAppService/RateStar";
+            var isFullCapacity = false;
+            var url_SetFullCapacity = SiteUrl+"StaffAppService/SetFullCapacity";
+            var url_GetCurrentSkyStatus =  SiteUrl+"StaffAppService/GetCurrentSkyStatus";
+            var url_DismissStarVisit =   SiteUrl+"StaffAppService/DismissStarVisit";
+
+            LocationStatusTypeIDEnum=Object.freeze({
+                NoFilter:0,
+                AtHome:1,
+                AtSkybarDoor:2,
+                AtSkybarVenue:3,
+                InTaxi:4,
+                LeftSkybar:5
+            });
+
+            var userRatingTypeIDEnum = Object.freeze({
+                "StarUser": 1,
+                "StaffApp" : 2,
+                "WebUser" : 3,
+                "DoorManager" : 4,
+                "FloorManager" : 5
+            });
+
+
+            function OpenManualCheckinStarPage(){
+                gotoView('StarCheckin');
+            }
+
+
+            function ClearRatingValues(){
+                $("#StarAppearanceBtn_"+$("#StarAppearance_hid").val()).removeClass("RatingButtonsClicked");
+                $("#GuestAppearanceBtn_"+$("#GuestAppearance_hid").val()).removeClass("RatingButtonsClicked");
+                $("#StarAppearance_hid").val("");$("#GuestAppearance_hid").val("");
+                $("#noteTextArea").val("");
+                $("#NumberOfGuestsVisitingNumeric").val(1)
+            }
+
+            function SetFullCapacity(){
+
+                $.ajax({
+                    type:"POST",
+                    url:url_SetFullCapacity + "?MobileSessionID="+MobileSessionID,
+                    data:{isFullCapacity: !isFullCapacity},
+                    dataType:"json",
+                    success:function(data){
+
+                        getSkyCurrentStatus();
+                    }
+                });
+            }
+            function getSkyCurrentStatus(){
+
+                $.ajax({
+                    type:"Get",
+                    url:url_GetCurrentSkyStatus + "?MobileSessionID="+MobileSessionID,
+
+                    dataType:"json",
+                    success:function(data){
+
+                        if(data != null){
+                            isFullCapacity = data.IsFullCapacity;
+
+                            if (isFullCapacity) {
+                                $("#fullCapacityBtn").removeClass("NotfullCapacity");
+                                $("#fullCapacityBtn").addClass("fullcapacity");
+                                // $("#fullCapacityBtn").text ("");
+                                $("#capacityImg").attr('src', 'css/images/full.png');
+                                // $("#fullCapacityBtn").append('<img id="capacityImg" src="css/images/full.png" style="height:40px" />');
+                                $("#fullCapacityTextField").text("FULL CAPACITY ALERT");
+                                $("#fullCapacityBtn").show();
+
+                            }
+
+                            else {
+                                $("#fullCapacityBtn").removeClass("fullcapacity");
+                                $("#fullCapacityBtn").addClass("NotfullCapacity");
+                                //$("#fullCapacityBtn").text ("");
+                                $("#capacityImg").attr('src', 'css/images/not_full.png');
+                                //$("#fullCapacityBtn").append('<img id="capacityImg" src="css/images/not_full.png" style="height:40px" />');
+                                $("#fullCapacityTextField").text("FULL CAPACITY");
+                                $("#fullCapacityBtn").show();
+                            }
+
+                        }
+                    }
+                });
+            }
+            function InitializeDismissWindow(){
+
+                $("#DismissWindow").kendoWindow({
+                    title: "Reason For Dismissal",
+                    visible: false,
+                    modal: true,
+                    width: "90%",
+                    height: 150,
+                    content: {
+                        template: kendo.template($("#DismissWindowTemplate").html())
+                    },
+                    close: function (e) {
+
+                    }
+                });
+            }
+
+            function OpenDismissVisitWindow()
+            {
+
+                $("#DismissWindow").data("kendoWindow").center().open();
+            }
+
+            function DismissStarVisit(reasonStatusID) {
+                var visitID = $("#VisitID_hid").val();
+                var userID = $("#UserID_hid").val();
+                $.ajax({
+                    type:"POST",
+                    url:url_DismissStarVisit + "?MobileSessionID="+MobileSessionID,
+                    data:{ ID:visitID , User_ID:userID, VisitDismissalTypeID: reasonStatusID},
+
+                    dataType:"json",
+                    success:function()
+                    {   $("#DismissWindow").data("kendoWindow").close();
+                        $("#starDetailsContainer").hide();
+                        $("#starsOnDoorList").data("kendoListView").dataSource.read();
+                    }
+                });
+
+            }
+
+
+            function FillStarDetails(n)
+            {    debugger;
+                ClearRatingValues();
+                $("#UserID_hid").val(n.User_ID);
+                $("#VisitID_hid").val(n.ID);
+                $("#starDetailsImage").attr("src","");
+                $("#starDetailsImage").attr("src", SiteUrl+"StaffAppService/GetImage?imagekey="+n.ProfileImageName + "&MobileSessionID="+ MobileSessionID);
+                $("#UserFirstNameLabel").text(n.FirstName);
+                $("#UserLastNameLabel").text(n.LastName);
+                $("#StarDetailsDateVisited").text(kendo.toString(n.DateVisited,"hh:mm tt"));
+                $("#UserLevelValue").text(n.UserLevel);
+                $("#UserMembershipValue").text(n.StarMembershipSeed);
+                n.UserRatingValue!=null?$("#UserRatingValue").text(n.UserRatingValue.toFixed(2)):$("#UserRatingValue").text("0.00");
+                $("#starDetailsContainer").show();
+            }
+            function ChangeStarAppearanceValue(n,t){
+                ChangeStarAppearanceButtonsCSS(n);
+                $("#StarAppearance_hid").val(t);
+            }
+            function ChangeStarAppearanceButtonsCSS(n){
+                $("#StarAppearance_hid").val()!=null&&$("#StarAppearance_hid").val()!=""&&$("#StarAppearanceBtn_"+$("#StarAppearance_hid").val()).removeClass("RatingButtonsClicked");$(n).addClass("RatingButtonsClicked")}
+
+            function ChangeGuestAppearanceValue(n,t){
+                ChangeGuestAppearanceButtonsCSS(n);
+                $("#GuestAppearance_hid").val(t)
+            }
+            function ChangeGuestAppearanceButtonsCSS(n){
+                $("#GuestAppearance_hid").val()!=null&&$("#GuestAppearance_hid").val()!=""&&$("#GuestAppearanceBtn_"+$("#GuestAppearance_hid").val()).removeClass("RatingButtonsClicked");$(n).addClass("RatingButtonsClicked")}
+
+            function ApproveAndRateStarVisit(){
+                debugger;
+                var n=$("#UserID_hid").val(),t=$("#VisitID_hid").val(),i=$("#noteTextArea").val(),r=$("#StarAppearance_hid").val(),u=$("#GuestAppearance_hid").val(),f=$("#NumberOfGuestsVisitingNumeric").val();
+                var userRatingTypeID=userRatingTypeIDEnum.DoorManager;
+
+                $.ajax({
+                    type:"POST",
+                    url:url_RateStarVisit + "?MobileSessionID="+MobileSessionID,
+                    data:{User_ID:n,Visit_ID:t,NumberOfGuests:f,StarAppearance:r,GuestAppearance:u,Note:i,UserRatingTypeID:userRatingTypeID},
+                    dataType:"json",
+                    success:function(){
+
+                        $("#starDetailsContainer").hide();
+                        $("#starsOnDoorList").data("kendoListView").dataSource.read();
+                    }
+                });
+            }
+
+
+            function changeNumberOfGuestsValue(input) {
+
+                $("#NumberOfGuestsVisitingNumeric").val(input.value);
+            }
+            function DisplayLoggedUserInfo(){
+                if(Logged_UserInfo!=null){
+                    $("#LoggedUserName").text(Logged_UserInfo.FirstName+" "+Logged_UserInfo.LastName);
+                    $("#loggedUserImage").attr("src",SiteUrl+"StaffAppService/GetImage?imagekey="+Logged_UserInfo.ProfileImageName +"&MobileSessionID="+ MobileSessionID);
+                    var n=Logged_UserInfo.Roles.split(",");n.length>1&&$("#loggedUserRole").text(n[1])
+                }
+            }
+
+            DoorActivityNamespace={
+                init:function(){
+                    DisplayLoggedUserInfo();
+                    getSkyCurrentStatus();
+                    InitializeDismissWindow();
+
+
+
+                },
+                viewModel:function(){
+                    return kendo.observable({
+                        isVisible:!0,
+                        onSave:function(n){
+                         },
+                        onSelect:function(n){
+                            n.dataItem.FullName!=null&&n.dataItem.FullName!=""?console.log(n.dataItem.FullName):console.log("No Items Selected")},
+                        starsOnDoorFilteredByName:new kendo.data.DataSource({
+                            schema:{
+                                model:{
+                                    id:"User_ID",
+                                    fields:{
+                                        User_ID:{type:"string"},
+                                        FullName:{type:"string"
+                                        }
+                                    }
+                                }
+                            },
+                            batch:!1,
+                            serverFiltering:!0,
+                            transport:{
+                                read:{
+                                    url:url_GetAvailableUsers +"?MobileSessionID="+ MobileSessionID,
+                                    dataType:"json"
+                                },
+                                parameterMap:function(n,t){
+                                    return t=="read"&&(n.starName=$("#searchTextBox").val(),n.statusTypeId=LocationStatusTypeIDEnum.AtSkybarDoor),n
+                                }
+                            },
+
+                        }),
+                        starsOnDoorList:new kendo.data.DataSource({
+                            schema:{
+                                model:{
+                                    id:"User_ID",
+                                    fields:{
+                                        ProfileImageName:{type:"string"},
+                                        DateVisited:{type:"date"},
+                                    }
+                                }
+                            },
+                            transport:{
+                                read:{
+                                    url:url_GetAvailableUsers+ "?MobileSessionID="+ MobileSessionID,
+                                    dataType:"json",
+                                    complete: function (e){
+                                        var data = e.responseJSON;
+                                        if (data.length > 0 )
+                                        {
+                                            var starsList = $("#starsOnDoorList").data("kendoListView");
+                                            var listItems = starsList.items();
+                                            var firstRow = listItems[0];
+                                            var firstDataItem = starsList.dataItem(firstRow);
+                                            FillStarDetails(firstDataItem);
+                                        }
+
+                                    }
+                                },
+                                parameterMap:function(n,t){
+                                    return t=="read"&&(n.starName="",n.statusTypeId=LocationStatusTypeIDEnum.AtSkybarDoor),n
+                                }
+
+                            },
+                            sort: { field: "DateVisited", dir: "asc" },
+                        }),
+                        ShowStarDetails:function(n){
+                            FillStarDetails(n.data)
+                        }
+                    })
+                }
+            };
+
+        </script>
+        <script id="StarsListTemplate" type="text/x-kendo-template">
+            <img id="star_#:User_ID#" class="starOnDoorImages" src="#=SiteUrl#StaffAppService/GetImage?imagekey=#:ProfileImageName#&MobileSessionID= #=MobileSessionID#" data-bind="click: ShowStarDetails" />
+        </script>
+
+        <script id="DismissWindowTemplate" type="text/x-kendo-template">
+            <div style="text-align:center;">
+                <div style="display:block; margin-bottom:20px">
+                    <div style="text-align:center;display:inline-flex;">
+                        <a class="ReasonDismiss" onclick="DismissStarVisit(1)">Inappropriate Dress Code</a>
+                    </div>
+                    <div style="text-align:center;display:inline-flex;">
+                        <a class="ReasonDismiss" onclick="DismissStarVisit(2)">Inappropriate Behavior</a>
+                    </div>
+                </div>
+                <div style="display:block">
+                    <div style="text-align:center;display:inline-flex;">
+                        <a class="ReasonDismiss" onclick="DismissStarVisit(3)">Rude Crowd</a>
+                    </div>
+                    <div style="text-align:center;display:inline-flex;">
+                        <a class="OtherReasonDismiss" onclick="DismissStarVisit(4)">Other</a>
+                    </div>
+                </div>
+            </div>
+        </script>
+
+        <script id="Reservations" type="text/x-kendo-template">
+            <!-- Here goes the html -->
+            <div id="ReservationsDiv" class="Contentcss">
+                <div id="UserDetailsDivInVenue" class="starsInVenueHeader" style="height:150px">
+                    <div id="userInfoDivReservations" class="userInfoHeader">
+                        <label class="titleInVenue">Reservations</label>
+                        <label class="DateStyle" id="currentTimeLbl"></label>
+                        <input type="text"
+                               id="searchTextBoxReservations"
+                               class="searchInVenue"
+                               placeholder="Search"
+                               data-role="autocomplete"
+                               data-Text-Field="FullName"
+                               data-value-field="User_ID"
+                               data-bind="source:ReservationsSource,
+                            events: {
+                              select: onSelect,
+
+
+                            }" />
+                    </div>
+                    <div style="margin-left:20px;margin-bottom:20px;margin-top:20px;">
+                        <div style="display:inline-block;width:30%">
+                            <button type="button" id="ReservationsAllStarsBtn" style="margin-right: 15px !important;" class="GenderActive" onclick="FilterReservationsGrid(this,null)"> </button><span style="font-size:large;vertical-align:7px;">All Stars</span>
+                        </div>
+                        <div style="display:inline-block;width:30%">
+                            <button type="button" id="ReservationsOnBarBtn" style="margin-left: 20px !important;margin-right: 15px !important;" class="GenderInActive" onclick="FilterReservationsGrid(this,1)"> </button> <span style="font-size:large;vertical-align:7px;">On Bar</span>
+                        </div>
+                        <div style="display:inline-block;width:30%">
+                            <button type="button" id="ReservationsTableReservationBtn" style="margin-left: 20px !important;margin-right: 15px !important;" class="GenderInActive" onclick="FilterReservationsGrid(this,2)"> </button> <span style="font-size:large;vertical-align:7px;">Table Reservation</span>
+                        </div>
+                    </div>
+
+                    <div style="margin-left:20px;margin-bottom:20px">
+                        <div style="display:inline-block;width:30%">
+                            <button type="button" id="ArrivedAllStarsBtn" style="margin-right: 15px !important;" class="ArrivedActive" onclick="FilterReservationsGridByArrivalStatus(this,null)"> </button><span style="font-size:large;vertical-align:7px;">All Arrivals</span>
+                        </div>
+                        <div style="display:inline-block;width:30%">
+                            <button type="button" id="ArrivedBtn" style="margin-left: 20px !important;margin-right: 15px !important;" class="ArrivedInActive" onclick="FilterReservationsGridByArrivalStatus(this,true)"> </button> <span style="font-size:large;vertical-align:7px;">Arrived</span>
+                        </div>
+                        <div style="display:inline-block;width:30%">
+                            <button type="button" id="NotArrivedBtn" style="margin-left: 20px !important;margin-right: 15px !important;" class="ArrivedInActive" onclick="FilterReservationsGridByArrivalStatus(this,false)"> </button> <span style="font-size:large;vertical-align:7px;">Not Arrived</span>
+                        </div>
+                    </div>
+
+                </div>
+                <div id="ReservationGridContainer">
+                    <div class="demo-section k-content wide">
+                        <div>
+                            <div id="ReservationsGrid"
+                                 data-role="grid"
+                                 data-editable="false"
+                                 data-columns="[ {}, {}]"
+                                 data-bind="source: ReservationsSource,
+                            visible: isVisible,"
+                                 data-row-template="ReservationGridTemplate"
+                                 style="border-style:none;height:700px;">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </script>
+        <script type="text/javascript">
+
+            var SiteUrl=$("#hf_SiteUrl").val();
+            url_GetReservations=SiteUrl+"StaffAppService/GetAllReservations";
+            var reservationTypeFilter=null;
+            var isArrived = null;
+            ReservationsNamespace={
+                init:function(){
+                    GetTime("currentTimeLbl");
+
+                    window.setInterval(function () {
+                        GetTime("currentTimeLbl");
+                    }, 20000);
+                },
+                viewModel:function(){
+                    return kendo.observable({
+                        isVisible:!0,
+                        ReservationsSource:
+                            new kendo.data.DataSource({
+                                transport:{
+                                    read:{
+                                        url:url_GetReservations+"?MobileSessionID="+ MobileSessionID,
+                                        dataType:"json"
+                                    },
+                                    parameterMap:
+                                        function(n,t){
+                                            return t=="read"&&(n.starName=$("#searchTextBoxReservations").val(),n.userID=$("#searchTextBoxReservations").data("kendoAutoComplete").value(),n.reservationTypeFilter=reservationTypeFilter,n.isArrived = isArrived),n
+                                        }
+                                },
+                                serverFiltering:!0,
+                                schema:{
+                                    model:{
+                                        id:"ID",
+                                        fields:{
+                                            ID:{type:"string"},
+                                            FirstName:{type:"string"},
+                                            MiddleName:{type:"string"},
+                                            LastName:{type:"string"},
+                                            DOB:{type:"date"},
+                                            Email:{type:"string"},
+                                            Mobile:{type:"string"},
+                                            DateVisited:{type:"date"},
+                                            DateRequested:{type:"date"},
+                                            NumberOfGuestReserved:{type:"number"},
+                                            NumberOfGuestVisitors:{type:"number"},
+                                            ReservationStatus_ID:{type:"string"},
+                                            ReservationType_ID:{type:"number"},
+                                            TypeName:{type:"string"},
+                                            FullName:{type:"string"},
+                                            Level:{type:"string"},
+                                            UserLevelType_ID:{type:"number"},
+                                            Company:{type:"string"},
+                                            JobTitle:{type:"string"},
+                                            User_ID:{type:"string"},
+                                            ProfileImageName:{type:"string"},
+                                            PhoneCode:{type:"string"},
+                                            UserRatingValue:{type:"number"},
+                                            ReservationAccessCode:{type:"string"},
+                                            ZoneID: { type: "string" },
+                                            ZoneName: { type: "string" },
+                                            ZoneDescription: { type: "string" },
+                                            Budget: { type: "number" },
+                                        }
+                                    }
+                                }
+                            }),
+                        onSelect:function(n){
+                            n.dataItem.User_ID!=null&&n.dataItem.User_ID!=""?$("#ReservationsGrid").data("kendoGrid").dataSource.read():console.log("No Items Selected")
+                        }
+                    })
+                }
+            };
+
+
+
+
+            function FilterReservationsGrid(element, value) {
+
+
+                $(".GenderActive").addClass("GenderInActive");
+                $(".GenderActive").removeClass("GenderActive");
+                $(element).addClass("GenderActive");
+                reservationTypeFilter = value;
+
+                $("#ReservationsGrid").data("kendoGrid").dataSource.read();
+
+            }
+
+            function FilterReservationsGridByArrivalStatus(element, value)
+            {
+                $(".ArrivedActive").addClass("ArrivedInActive");
+                $(".ArrivedActive").removeClass("ArrivedActive");
+                $(element).addClass("ArrivedActive");
+                isArrived = value;
+                $("#ReservationsGrid").data("kendoGrid").dataSource.read();
+            }
+        </script>
+        <script id="ReservationGridTemplate" type="text/x-kendo-template">
+
+            <tr data-uid="#: uid #">
+                <td class="photo" style="border-color:transparent;">
+                    <img class="resImages" src="#=SiteUrl#StaffAppService/GetImage?imagekey=#:ProfileImageName#&MobileSessionID= #=MobileSessionID#" />
+                </td>
+                <td class="details">
+                    <span class="resDate" style="margin-bottom:7px;">
+                        Reservation For #:kendo.toString(kendo.parseDate(DateRequested, 'yyyy-MM-dd HH:mm:ss'), 'ddd dd MMM, yyyy')#
+
+
+
+                        # if(UserRatingValue != null) {#
+
+                        <span class="jqEmoji-container">
+                            <span class="#if(UserRatingValue >= 1 ) {# jqEmojiIn  #} else {# jqEmojiOut  #}#" id="ratingStar_0" data-index="0">⭐</span>
+                            <span class="#if(UserRatingValue >= 2 ) {# jqEmojiIn  #} else {# jqEmojiOut  #}#" id="ratingStar_1" data-index="1">⭐</span>
+                            <span class="#if(UserRatingValue >= 3 ) {# jqEmojiIn  #} else {# jqEmojiOut  #}#" id="ratingStar_2" data-index="2">⭐</span>
+                            <span class="#if(UserRatingValue >= 4) {# jqEmojiIn  #} else {# jqEmojiOut  #}#" id="ratingStar_3" data-index="3">⭐</span>
+                            <span class="#if(UserRatingValue >= 5 ) {# jqEmojiIn  #} else {# jqEmojiOut  #}#" id="ratingStar_4" data-index="4">⭐</span>
+                        </span>
+                        #}else {#
+                        <span class="jqEmoji-container">
+                            <span class="jqEmojiOut" id="ratingStar_0" data-index="0">⭐</span>
+                            <span class="jqEmojiOut" id="ratingStar_1" data-index="1">⭐</span>
+                            <span class="jqEmojiOut" id="ratingStar_2" data-index="2">⭐</span>
+                            <span class="jqEmojiOut" id="ratingStar_3" data-index="3">⭐</span>
+                            <span class="jqEmojiOut" id="ratingStar_4" data-index="4">⭐</span>
+                        </span>
+                        #}#
+                        <span class="ratingVal"> #:(UserRatingValue == null) ? '0.00' : UserRatingValue.toFixed(2) # </span>
+                    </span>
+                    <span class="gridName" style="margin-bottom:7px;">
+                        <span>#:FullName#</span>
+                        <span style="margin-left:10px;font-size:medium;font-weight:normal;color:green"> #:(ReservationAccessCode == null) ? '' : 'Code: ' + ReservationAccessCode #</span>
+                    </span>
+                    <span class="budgetInfo" style="margin-bottom:7px;">
+                        #:(Budget == null) ? '' :'Budget ' + Budget + ' AED' #
+                        #:(ZoneID == null) ? '' :' in ' + ZoneName  #
+                    </span>
+                    <span class="gridInfo" style="margin-bottom:7px;">
+                        # var numberOfGuestInVenue = $.grep(GuestList, function (e) { return e.GuestLocationStatusTypeId == 2 }); #
+
+
+                        SKY #:Level# - #:TypeName# Reservation - #:GuestList.length# guests
+                        ( #: numberOfGuestInVenue.length # in venue)
+
+                        # if (UserLocationStatusTypeId == 2 || UserLocationStatusTypeId == 3 ) {#
+                        <span class="gridInfoDate" style="float:right">Arrived <!--at #:kendo.toString(kendo.parseDate(DateVisited, 'yyyy-MM-dd HH:mm:ss'), 'hh:mm tt')#--> </span>
+                        #}else {#
+                        <span class="gridInfoDate" style="float:right">Did Not Arrive</span>
+                        #}#
+                    </span>
+                </td>
+            </tr>
+
+        </script>
+
+        <script id="GuestListGridTemplate" type="text/x-kendo-template">
+            <tr data-uid="#: uid #">
+                <td class="photo" style="vertical-align:top;border-bottom-style: solid !important;border-bottom-width: 1px !important;">
+                    <img class="resImages" src="#=SiteUrl#StaffAppService/GetImage?imagekey=#:ProfileImageName#&MobileSessionID= #=MobileSessionID#" />
+                </td>
+                <td class="details">
+                    <span class="gridNameGuestGrid" style="margin-bottom:5px">
+                        #:FullName# &nbsp;
+                        <span class="vl"> &nbsp;</span>
+                        <span style="font-weight:normal"> #:GuestList.length# Guests</span>
+
+                        # var numberOfGuestInVenue = $.grep(GuestList, function (e) { return e.GuestLocationStatusTypeId == 2 }); #
+
+                        <span style="font-weight:normal;color:\#808080"> #: numberOfGuestInVenue.length # in venue</span>
+                    </span>
+                    # if (GuestList.length > 0) {#
+                    <!--<span class="gridInfo">-->
+                    # for (var i = 0; i < GuestList.length; i++) {#
+                    # var guestId = GuestList[i].ID; #
+                    # var locationStatus = GuestList[i].GuestLocationStatusTypeId; #
+
+                    <span class="guestListin">
+                        <div style="display: inline-block;border-radius:50%;">
+
+
+
+                            #if (locationStatus == 2 ) {#
+                            <!--<img width="20" height="20" src="css/images/Success_logo.png" class="imageGuestCl" onclick="UpdateGuestLocationStatus('#:guestId#','#:locationStatus#')" />-->
+
+                            <img src="css/images/select_small.png" class="imageGuestCl" onclick="UpdateGuestLocationStatus('#:guestId#','#:locationStatus#')">
+
+                            <!--<div class="imageGuestCl" ></div>-->
+                            #} else {#
+
+
+                            <!--<img width="20" height="20" src="" class="imageGuestCl" onclick="UpdateGuestLocationStatus('#:guestId#','#:locationStatus#')" />-->
+
+                            <img src="css/images/deselect_small.png" class="imageGuestCl" onclick="UpdateGuestLocationStatus('#:guestId#','#:locationStatus#')">
+                            <!--<div class="divGuestCl" onclick="UpdateGuestLocationStatus('#:guestId#','#:locationStatus#')"></div>-->
+                            #}#
+                        </div>
+                        <span onclick="UpdateGuestLocationStatus('#:guestId#','#:locationStatus#')" class="guestName">#:GuestList[i].GuestFullName#</span>
+                    </span>
+                    #}#
+                    <!--</span>-->
+                    #}#
+                </td>
+            </tr>
+
+        </script>
+
+        <script type="text/javascript">
+
+
+            var SiteUrl=$("#hf_SiteUrl").val();
+            var url_GetAvailableUsers=SiteUrl+"StaffAppService/GetAvailableUsers";
+            var url_UpdateGuestLocationStatus = SiteUrl+"StaffAppService/UpdateStarGuestLocationStatus";
+            url_GetAllReservationsAndVisitGuests=SiteUrl+"StaffAppService/GetAllReservationsAndVisitGuests";
+            var SelectedUserID = null;
+            GuestListNamespace={
+
+                init:function(){
+
+                    SelectedUserID = null;
+
+                    GetTime("currentTimeLbl");
+
+                    window.setInterval(function () {
+                        GetTime("currentTimeLbl");
+                    }, 20000);
+
+                },
+                viewModel:function(){
+                    return kendo.observable({
+                        isVisible:!0,
+                        GuestListByReservation:new kendo.data.DataSource({
+                            transport:{
+                                read:{
+                                    url:url_GetAllReservationsAndVisitGuests+"?MobileSessionID="+ MobileSessionID,
+                                    dataType:"json",
+                                    complete: function(e){
+                                        var TotalGuests = 0;
+                                        var TotalGuestsInVenue = 0;
+
+                                        var data = e.responseJSON;
+                                        for (var i = 0; i < data.length; i++) {
+
+                                            if(data[i].GuestList.length >0){
+                                                TotalGuests =  TotalGuests + data[i].GuestList.length;
+
+                                                var numberOfGuestInVenue = $.grep(data[i].GuestList, function (e) { return e.GuestLocationStatusTypeId == 2 });
+
+                                                TotalGuestsInVenue = TotalGuestsInVenue + numberOfGuestInVenue.length;
+
+                                            }
+
+                                        }
+                                        $("#TotalGuestsInVenueLbl").text(TotalGuestsInVenue + " /");
+                                        $("#TotalGuestsLbl").text(TotalGuests);
+
+                                    }
+                                },
+                                parameterMap:
+                                    function(n,t){
+                                        if(t == "read"){
+                                            debugger;
+
+                                            n.starName=$("#searchTextBoxGuestList").data("kendoAutoComplete").value();
+
+                                            //n.userID= SelectedUserID;
+
+                                        }
+
+                                        return n ;
+                                    }
+                            },
+                            serverFiltering:!0,
+                            schema:{
+                                model:{
+                                    id:"ID",
+                                    fields:{
+                                        ID:{type:"string"},
+                                        FirstName:{type:"string"},
+                                        MiddleName:{type:"string"},
+                                        LastName:{type:"string"},
+                                        DOB:{type:"date"},
+                                        Email:{type:"string"},
+                                        Mobile:{type:"string"},
+                                        DateVisited:{type:"date"},
+                                        DateRequested:{type:"date"},
+                                        NumberOfGuestReserved:{type:"number"},
+                                        NumberOfGuestVisitors:{type:"number"},
+                                        ReservationStatus_ID:{type:"string"},
+                                        ReservationType_ID:{type:"number"},
+                                        TypeName:{type:"string"},
+                                        FullName:{type:"string"},
+                                        Level:{type:"string"},
+                                        UserLevelType_ID:{type:"number"},
+                                        Company:{type:"string"},
+                                        JobTitle:{type:"string"},
+                                        User_ID:{type:"string"},
+                                        ProfileImageName:{type:"string"},
+                                        PhoneCode:{type:"string"},
+                                        UserRatingValue:{type:"number"}
+                                    }
+                                }
+                            }
+                        }),
+
+                        onSelect:function(n){
+
+                            // if ( n.dataItem.User_ID!=null && n.dataItem.User_ID!=""){
+                            // console.log(n.dataItem.User_ID);
+                            // SelectedUserID = n.dataItem.User_ID;
+                            $("#GuestListGrid").data("kendoGrid").dataSource.read();
+
+                            //  }
+                            //else {
+                            //console.log("No Items Selected");
+                            //  SelectedUserID = null;
+                            //}
+
+                        }
+                    })
+                }
+            };
+
+            function UpdateGuestLocationStatus(guestID, locationStatus) {
+
+                if (locationStatus == 2) {
+                    locationStatus = 1;
+                }
+
+                else {
+                    locationStatus = 2;
+                }
+
+                $.ajax({
+                    type:"POST",
+                    url:url_UpdateGuestLocationStatus + "?MobileSessionID="+MobileSessionID,
+                    data:{guestId:guestID, guestStatusID:locationStatus},
+                    dataType:"json",
+                    success:function(){
+                        ReloadKendoGrid('GuestListGrid');
+                        // $("#starDetailsContainer").hide();
+                        //$("#starsOnDoorList").data("kendoListView").dataSource.read();
+                    }
+                });
+
+            }
+
+
+
+        </script>
+
+        <script id="GuestList" type="text/x-kendo-template">
+            <!-- Here goes the html -->
+            <div id="GuestListDiv" class="Contentcss">
+
+                <div id="GuestListDetailsDiv" class="starsInVenueHeader">
+                    <div id="GuestListInfoDiv" class="userInfoHeader">
+                        <label class="titleInVenue">Guest List</label>
+                        <label class="DateStyle" id="currentTimeLbl" style="margin-left:20%;"></label>
+                        <input type="text"
+                               id="searchTextBoxGuestList"
+                               class="searchInVenue"
+                               placeholder="Search"
+                               data-role="autocomplete"
+                               data-Text-Field="FullName"
+                               data-value-field="User_ID"
+                               data-bind="source:GuestListByReservation,
+                            events: {
+                              change:onSelect,
+                            }" />
+                    </div>
+                </div>
+
+                <div style="text-align:right; margin-bottom: 20px;color:black;" class="DateStyle">
+                    <span>
+                        Guests:
+                    </span>
+                    <span id="TotalGuestsInVenueLbl">
+                        0/
+                    </span>
+                    <span id="TotalGuestsLbl">
+                        0
+                    </span>
+                </div>
+
+                <div id="example">
+                    <div class="demo-section k-content wide">
+                        <div>
+                            <div data-role="grid"
+                                 id="GuestListGrid"
+                                 data-editable="false"
+                                 data-columns="[{}, {}]"
+                                 data-bind="source: GuestListByReservation,
+                                     visible: isVisible,"
+                                 data-row-template="GuestListGridTemplate"
+                                 style="border-style:none;height:800px;">
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </script>
+
+
+
+        <script id="Settings" type="text/x-kendo-template">
+            <!-- Here goes the html -->
+            <div id="SettingsDiv">
+
+                <div id="UserDetailsDiv" class="userDetailsSettings" style="">
+                    <img id="loggedUserImageSettings">
+                    <div id="userInfoDiv" class="userInfoSettings">
+                        <label id="LoggedUserNameSettings" style="font-size: 14pt;font-weight: bold;margin-bottom: 0px;color:black"></label>
+                        <br />
+                        <label id="loggedUserRoleSettings" style="font-size: 12pt;margin-bottom: 0px;font-weight: normal;"></label>
+                    </div>
+                </div>
+                <div style="background-color:#f5f4f4;width: 100%;padding-top: 60px;height: 900px;">
+
+                    <div class="userSettings">
+                        <a href="#show" style="font-size:medium;color:#1456cc">Push Notifications</a>
+                    </div>
+                    <hr style="margin-left: 1rem; margin-right: 1rem; margin-bottom: 40px;" />
+                    <div class="userSettings">
+                        <img src="css/images/terms.png" height="40" />
+                        <a href="#show" style="font-size:medium;font-weight:bold;color:#1456cc">Terms & Conditions</a>
+                    </div>
+
+                    <hr style="margin-left: 1rem; margin-right: 1rem;margin-bottom: 40px;" />
+
+                    <div class="userSettings">
+                        <img src="css/images/logout.png" height="40" />
+                        <a href="#show" style="font-size:medium;font-weight:bold;color:#1456cc" onclick="LogOut()">Sign Out</a>
+                    </div>
+                </div>
+            </div>
+        </script>
+        <script type="text/javascript">
+
+            function FillSettingsUserInfo(){
+
+                if(Logged_UserInfo!=null){
+                    $("#LoggedUserNameSettings").text(Logged_UserInfo.FirstName+" "+Logged_UserInfo.LastName);
+                    $("#loggedUserImageSettings").attr("src",SiteUrl+"StaffAppService/GetImage?imagekey="+Logged_UserInfo.ProfileImageName +"&MobileSessionID="+ MobileSessionID);
+                    var n=Logged_UserInfo.Roles.split(",");n.length>1&&$("#loggedUserRoleSettings").text(n[1])
+                }
+            }
+
+
+
+            SettingsNamespace={
+                init:function(){
+                    FillSettingsUserInfo();
+                },
+                viewModel:function(){
+                    return kendo.observable({
+                        SettingsSource:new kendo.data.DataSource({
+                            transport:{
+                                read:{
+                                    url:"",
+                                    dataType:"json"
+                                },
+                                update:{
+                                    url:"",
+                                    dataType:"json"
+                                },
+                                parameterMap:function(n,t){
+                                    return t!=="read"&&n.models?{userModel:kendo.stringify(n.models)}:n
+                                }
+                            },
+                            batch:!0,
+                            schema:{
+                                model:{
+                                    id:"Id",
+                                    fields:{}
+                                }
+                            }
+                        })
+                    })
+                }
+            };
+
+            function LogOut(){
+                $("#footerCtn").hide();
+                gotoView('Login');
+            }
+
+        </script>
+
+
+        <script id="StarCheckin" type="text/x-kendo-template">
+            <!-- Here goes the html -->
+            <div id="StarCheckinDiv">
+                <div id="starDetailsContainer">
+
+                    <div style="display:block;margin-bottom:2%;margin-left:10px;margin-top:10px">
+                        <a href="#show" onclick="gotoView('DoorActivity')" style="font-size:20px;"> < </a>
+                        <a href="#show" onclick="gotoView('DoorActivity')">Door Activity</a>
+                        <label class="DateStyle" id="currentTimeLbl" style="float: right;margin-right: 10px;"></label>
+                    </div>
+
+                    <div style="margin-top: 50px;">
+                        <div>
+                            <div class="k-edit-field">
+                                <div style="width:70%; text-align:center;">
+                                    <img id="starManualCheckinImg" style="width:120px;height:120px;border-radius:50%" src="SiteUrl+StaffAppService/GetImage?imagekey=empty.png&MobileSessionID= MobileSessionID" />
+
+                                </div>
+                            </div>
+                        </div>
+                        <form id="CheckinStarForm">
+                            <div>
+                                <div class="k-edit-label">
+                                    <label class="checkinLabl"> Star Name</label>
+                                </div>
+                                <div class="k-edit-field">
+                                    <input type="text"
+                                           id="userIDSearchBox"
+                                           name="userID"
+                                           required
+                                           placeholder="Search"
+                                           data-role="autocomplete"
+                                           data-Text-Field="FullName"
+                                           data-value-field="ID"
+                                           data-bind="source:AllStarsDataSource,
+
+                            events: {
+                              select: onSelect
+
+                            }"
+                                           style="font-size:1.3em;width:70%" />
+                                </div>
+                                <div class="k-edit-label">
+                                    <label class="checkinLabl checkinAccesslbl">Has Access Card</label>
+                                    <input type="radio"
+                                           id="hasAccessCard"
+                                           name="AccessCard"
+                                           required
+                                           value="0"
+                                           onclick="ChangeAccessCardID(this)" />
+                                </div>
+                                <div class="k-edit-field">
+
+                                    <label class="checkinLabl checkinAccesslbl">Does not have Access Card</label>
+
+                                    <input type="radio"
+                                           id="DoesntHaveAccessCard"
+                                           name="AccessCard"
+                                           class="checkinRadio"
+                                           value="1"
+                                           required
+                                           onclick="ChangeAccessCardID(this)" />
+                                </div>
+                                <div class="k-edit-label">
+                                    <label class="checkinLabl">Access Card ID</label>
+                                </div>
+                                <div class="k-edit-field">
+                                    <input type="number"
+                                           id="accessCardID"
+                                           name="accessCardID"
+                                           class="k-input k-NumericTextBox"
+                                           style="border-radius:10px;font-size:1.3em;width:70%;padding-left:7px;"
+                                           disabled="disabled" />
+                                </div>
+                                <div class="k-edit-field" style="margin-top:20px">
+                                    <button class="checkinBtnCl">Check-in</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+            </div>
+        </script>
+
+        <script type="text/javascript">
+
+            var SiteUrl=$("#hf_SiteUrl").val();
+            var url_SetStarOnDoorManually = SiteUrl+"StaffAppService/SetStarOnDoorManually";
+            var url_IsAccessCardInUse = SiteUrl+"StaffAppService/IsAccessCardInUse";
+            var url_GetAllStars = SiteUrl+"StaffAppService/GetAllStars";
+
+            StarCheckinNamespace= {
+                init:function(){
+
+                    GetTime("currentTimeLbl");
+
+                    window.setInterval(function () {
+                        GetTime("currentTimeLbl");
+                    }, 20000);
+
+                    $("#CheckinStarForm").submit(function (e) {
+                        debugger;
+                        e.preventDefault();
+                        var userID = $("#userIDSearchBox").data("kendoAutoComplete").dataItem().ID;
+
+                        if($("input[name='AccessCard']:checked").val() == 0)
+                        {
+                            accessCardID = null;
+
+                            $.ajax({
+                                type: "POST",
+                                url: url_SetStarOnDoorManually + "?MobileSessionID="+ MobileSessionID,
+                                data: {userID:userID, accessCardID: accessCardID},
+                                success: function (data) {
+                                    debugger;
+                                    e.preventDefault();
+                                    gotoView('DoorActivity');
+                                    //$("#AllStarsGrid").data("kendoGrid").dataSource.read();
+
+
+                                }
+                            });
+
+                        }
+                        else {
+
+                            var accessCardID = $("#accessCardID").val();
+
+                            $.ajax({
+                                type: "POST",
+                                url: url_IsAccessCardInUse + "?MobileSessionID="+ MobileSessionID,
+                                data: {accessCardID: accessCardID},
+                                success: function (data) {
+                                    debugger;
+                                    if(data == false){
+
+                                        $.ajax({
+                                            type: "POST",
+                                            url: url_SetStarOnDoorManually + "?MobileSessionID="+ MobileSessionID,
+                                            data: {userID:userID, accessCardID: accessCardID},
+                                            success: function (data) {
+                                                debugger;
+                                                e.preventDefault();
+                                                gotoView('DoorActivity');
+                                                //$("#AllStarsGrid").data("kendoGrid").dataSource.read();
+
+
+                                            }
+                                        });
+                                    }
+                                    else {
+
+                                        kendo.alert("Access Card Already In Use");
+
+                                    }
+                                }
+                            });
+
+                        }
+
+                    });
+
+
+                    $("#starManualCheckinImg").attr("src",SiteUrl+"StaffAppService/GetImage?imagekey=empty.jpg" +"&MobileSessionID="+ MobileSessionID);
+
+
+                },
+                viewModel:function(){
+                    return kendo.observable({
+                        isVisible:!0,
+                        AllStarsDataSource:new kendo.data.DataSource({
+                            schema:{
+                                model:{
+                                    id:"ID",
+                                    fields:{
+                                        ID:{type:"string"},
+                                        FullName:{type:"string"},
+                                    }
+                                }
+                            },
+                            batch:!1,
+                            serverFiltering:!0,
+                            transport:{
+                                read:{
+                                    url:url_GetAllStars +"?MobileSessionID="+ MobileSessionID,
+                                    dataType:"json",
+                                    complete: function(e){
+
+                                    }
+                                },
+                                parameterMap:function(n,t){
+                                    return t=="read"&&(n.starName=$("#userIDSearchBox").val()),n
+                                }
+                            }
+                        }),
+                        onSelect:function(n){
+
+
+                            if(n.dataItem.ID!=null &&n.dataItem.ID!="")
+                            {
+                               // console.log(n.dataItem.FullName+"&"+n.dataItem.ID);
+                                $("#starManualCheckinImg").attr("src",SiteUrl+"StaffAppService/GetImage?imagekey="+n.dataItem.ProfileImageName +"&MobileSessionID="+ MobileSessionID);
+
+                            }
+
+                            else {
+                                console.log("no item selected");
+                                $("#starManualCheckinImg").attr("src",SiteUrl+"StaffAppService/GetImage?imagekey=empty.jpg" +"&MobileSessionID="+ MobileSessionID);
+
+                            }
+                        },
+
+
+                    })
+                }
+            };
+
+            function ChangeAccessCardID(input){
+                debugger;
+                if (input.value == 0){
+                    $("#accessCardID").val("");
+                    $("#accessCardID").attr("disabled",true);
+                    $("#accessCardID").attr("required",false);
+                }
+                else {
+                    $("#accessCardID").attr("disabled",false);
+                    $("#accessCardID").attr("required",true);
+                }
+
+
+            }
+
+
+        </script>
+
+
+
+        <input id="hf_views" name="hf_views" type="hidden" value="[{&quot;ViewName&quot;:&quot;Login&quot;,&quot;IsDefault&quot;:true},{&quot;ViewName&quot;:&quot;DoorActivity&quot;,&quot;IsDefault&quot;:false}, {&quot;ViewName&quot;:&quot;GuestList&quot;,&quot;IsDefault&quot;:false},{&quot;ViewName&quot;:&quot;StarInVenue&quot;,&quot;IsDefault&quot;:false},{&quot;ViewName&quot;:&quot;Reservations&quot;,&quot;IsDefault&quot;:false},{&quot;ViewName&quot;:&quot;Settings&quot;,&quot;IsDefault&quot;:false},{&quot;ViewName&quot;:&quot;StarInVenueDetails&quot;,&quot;IsDefault&quot;:false},{&quot;ViewName&quot;:&quot;StarCheckin&quot;,&quot;IsDefault&quot;:false}]">
+    </div>
+
+    <div id="app">
+        <div>
+            <header></header><section id="content"></section>
+            <footer class="footer" style="display:none">
+                <div class="footerMainContainer">
+                    <div class="footerButtons First">
+                        <a style="cursor:pointer" href="http://localhost:47431/DoorMan/#show" onclick="gotoView(&quot;DoorActivity&quot;)">
+                            <img id="Img_DoorActivity" src="css/images/door_off.png">
+                            Door Activity
+                        </a>
+                    </div>
+                    <div class="footerButtons">
+                        <a style="cursor:pointer" href="http://localhost:47431/DoorMan/#show" onclick="gotoView(&quot;GuestList&quot;)">Guest List</a>
+                    </div>
+                    <div class="footerButtons">
+                        <a style="cursor:pointer" href="http://localhost:47431/DoorMan/#show" onclick="gotoView(&quot;Reservations&quot;)">Reservations</a>
+                    </div>
+                    <div class="footerButtons">
+                        <a style="cursor:pointer" href="http://localhost:47431/DoorMan/#show" onclick="gotoView(&quot;Settings&quot;)">Settings</a>
+                    </div>
+                </div>
+            </footer>
+        </div>
+    </div>
+    <script type="text/javascript">
+        function storeCurrentView(n){
+            typeof Storage!="undefined"&&sessionStorage.setItem("currentView",n)
+        }
+        function getCurrentView(){
+            var n=defaultView;
+            return typeof Storage!="undefined"&&sessionStorage.getItem("currentView")!=null&&(n=sessionStorage.getItem("currentView")),n
+        }
+        function gotoView(n){
+
+
+            reservationTypeFilter=null;
+            isArrived = null;
+
+            $("#btn_" + n).css("color","black");
+
+            if(n ==  "DoorActivity" )
+            {
+                $("#img_" + n).attr('src', 'css/images/door_on.png');
+
+                $("#img_GuestList").attr('src', 'css/images/add_off.png');
+                $("#btn_GuestList").css("color","#979797");
+
+                $("#img_Reservations").attr('src', 'css/images/list_off.png');
+                $("#btn_Reservations").css("color","#979797");
+
+                $("#img_Settings").attr('src', 'css/images/setting_off.png');
+                $("#btn_Settings").css("color","#979797");
+            }
+            else if(n ==  "GuestList" )
+            {
+                $("#img_" + n).attr('src', 'css/images/add_on.png');
+
+                $("#img_DoorActivity").attr('src', 'css/images/door_off.png');
+                $("#btn_DoorActivity").css("color","#979797");
+
+                $("#img_Reservations").attr('src', 'css/images/list_off.png');
+                $("#btn_Reservations").css("color","#979797");
+
+                $("#img_Settings").attr('src', 'css/images/setting_off.png');
+                $("#btn_Settings").css("color","#979797");
+            }
+            else if (n ==  "Reservations" ){
+                $("#img_" + n).attr('src', 'css/images/list_on.png');
+
+                $("#img_DoorActivity").attr('src', 'css/images/door_off.png');
+                $("#btn_DoorActivity").css("color","#979797");
+
+                $("#img_GuestList").attr('src', 'css/images/add_off.png');
+                $("#btn_GuestList").css("color","#979797");
+
+                $("#img_Settings").attr('src', 'css/images/setting_off.png');
+                $("#btn_Settings").css("color","#979797");
+            }
+            else if (n ==  "Settings" ){
+                $("#img_" + n).attr('src', 'css/images/settings_on.png');
+
+                $("#img_DoorActivity").attr('src', 'css/images/door_off.png');
+                $("#btn_DoorActivity").css("color","#979797");
+
+                $("#img_GuestList").attr('src', 'css/images/add_off.png');
+                $("#btn_GuestList").css("color","#979797");
+
+                $("#img_Reservations").attr('src', 'css/images/list_off.png');
+                $("#btn_Reservations").css("color","#979797");
+
+
+            }
+
+            router.navigate("/"+n)
+        }
+        function ReloadKendoGrid(n){
+            $("#"+n).data("kendoGrid").dataSource.read()
+        }
+        function InitialiazeGridToolTip(n){
+            $(n).kendoTooltip({
+                filter:"th",
+                content:function(n){
+                    var t=n.target;
+                    return $(t).text()
+                }
+            })
+        }
+
+        var i,defaultScope;
+
+        UTILITY.InitializeErrorLogging();
+
+        var layout=new kendo.Layout("<header><\/header><section id='content'><\/section>"
+
+            +"<footer id= 'footerCtn'class='footer' style='display:none;'>"
+            +"<div class='footerMainContainer'>"
+            +"<div class='footerButtons First'>"
+            + "<div>"
+            +"<img id='img_DoorActivity' src='css/images/door_off.png' style='width:60px;' onclick='gotoView(\"DoorActivity\")'>"
+            +"<\/div>"
+            + "<a id='btn_DoorActivity' style='cursor:pointer;color:#979797;'  href='#show' onclick='gotoView(\"DoorActivity\")'>"
+            + "Door Activity"
+            +"<\/a>"
+            +"<\/div>"
+
+            + "<div class='footerButtons'>"
+            + "<div>"
+            +"<img id='img_GuestList' src='css/images/add_off.png' style='width:60px;' onclick='gotoView(\"GuestList\")'>"
+            +"<\/div>"
+            +"<a id='btn_GuestList' style='cursor:pointer;color:#979797;'  href='#show' onclick='gotoView(\"GuestList\")'>"
+            +"Guest List"
+            +"<\/a>"
+            +"<\/div>"
+
+            +"<div class='footerButtons'>"
+            + "<div>"
+            +"<img id='img_Reservations' src='css/images/list_off.png' style='width:60px;' onclick='gotoView(\"Reservations\")'>"
+            +"<\/div>"
+            +"<a id='btn_Reservations' style='cursor:pointer;color:#979797;'  href='#show' onclick='gotoView(\"Reservations\")'>"
+            +"Reservations"
+            +"<\/a>"
+            +"<\/div>"
+
+            +"<div class='footerButtons'>"
+            + "<div>"
+            +"<img id='img_Settings' src='css/images/setting_off.png' style='width:60px;' onclick='gotoView(\"Settings\")'>"
+            +"<\/div>"
+            +"<a id='btn_Settings'  style='cursor:pointer;color:#979797;'  href='#show' onclick='gotoView(\"Settings\")'>"
+            +"Settings"
+            +"<\/a>"
+            +"<\/div>"
+
+            +"<\/div>"
+
+            +"<\/footer>"
+            );
+
+        var Logged_UserInfo=null,MobileSessionID=null,router=new kendo.Router,viewslist=JSON.parse($("#hf_views").val()),view,defaultView=null,VisitID=null,currentView;for(i=viewslist.length-1;i>=0;i--)router.route("/"+viewslist[i].ViewName,function(){try{var n=router.navigate.arguments[0].replace("/",""),t=window[n+"Namespace"];view=new kendo.View(n,{model:t.viewModel()});layout.showIn("#content",view);storeCurrentView(n);try{t.init()}catch(i){}}catch(i){}}),viewslist[i].IsDefault==!0&&(defaultView=viewslist[i].ViewName);if(defaultView!=null){defaultView=getCurrentView();defaultScope=window[defaultView+"Namespace"];view=new kendo.View(defaultView,{model:defaultScope.viewModel()});layout.showIn("#content",view);try{defaultScope.init()}catch(e){}}else alert("No default view found!");router.bind("init",function(){layout.render($("#app"))});$(function(){router.start()});
+    </script>
+
+
+    <div class="k-list-container k-popup k-group k-reset" id="searchTextBox-list" data-role="popup" aria-hidden="true" style="display: none; position: absolute;"><div class="k-group-header" style="display:none"></div><div class="k-list-scroller" unselectable="on"><ul unselectable="on" class="k-list k-reset" tabindex="-1" aria-hidden="true" id="searchTextBox_listbox" aria-live="polite" data-role="staticlist" role="listbox"></ul></div><div class="k-nodata" style="display:none"><div></div></div></div><div class="k-list-container k-popup k-group k-reset" id="searchTextBoxInVenue-list" data-role="popup" aria-hidden="true" style="display: none; position: absolute;"><div class="k-group-header" style="display:none"></div><div class="k-list-scroller" unselectable="on"><ul unselectable="on" class="k-list k-reset" tabindex="-1" aria-hidden="true" id="searchTextBoxInVenue_listbox" aria-live="polite" data-role="staticlist" role="listbox"></ul></div><div class="k-nodata" style="display:none"><div></div></div></div><div class="k-list-container k-popup k-group k-reset" id="searchTextBoxReservations-list" data-role="popup" aria-hidden="true" style="display: none; position: absolute;"><div class="k-group-header" style="display:none"></div><div class="k-list-scroller" unselectable="on"><ul unselectable="on" class="k-list k-reset" tabindex="-1" aria-hidden="true" id="searchTextBoxReservations_listbox" aria-live="polite" data-role="staticlist" role="listbox"><li tabindex="-1" role="option" unselectable="on" class="k-item" aria-selected="false" data-offset-index="0">Amin James</li></ul></div><div class="k-nodata" style="display:none"><div>No data found.</div></div></div><div class="k-list-container k-popup k-group k-reset" id="searchTextBox-list" data-role="popup" aria-hidden="true" style="display: none; position: absolute;"><div class="k-group-header" style="display:none"></div><div class="k-list-scroller" unselectable="on"><ul unselectable="on" class="k-list k-reset" tabindex="-1" aria-hidden="true" id="searchTextBox_listbox" aria-live="polite" data-role="staticlist" role="listbox"></ul></div><div class="k-nodata" style="display:none"><div></div></div></div>
+
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+
+            try {
+
+                $.support.cors = true;
+
+            } catch (e) {
+
+            }
+
+
+        });
+
+    </script>
+</body>
+</html>
